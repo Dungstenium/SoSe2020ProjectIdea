@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
 {
     const string mouseXInputName = "Mouse X";
     const string mouseYInputName = "Mouse Y";
-    [SerializeField] float mouseSensitivity;
+    [SerializeField] float mouseSensitivity = 150;
     float xAxisClamp;
     Transform playerBodyTransform;
     void Awake()
