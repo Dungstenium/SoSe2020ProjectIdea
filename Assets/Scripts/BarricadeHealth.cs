@@ -9,7 +9,7 @@ namespace Barricade
         float health;
         float healthPercentage;
         [SerializeField] float maxHealth = 10;
-        [SerializeField] Transform[] woodenBarricade;
+        Transform[] woodenBarricade;
         int quantityOfChildren;
         void Start()
         {
@@ -17,23 +17,28 @@ namespace Barricade
             health = 0.0f;
             healthPercentage = health / maxHealth;
 
+            woodenBarricade = new Transform[quantityOfChildren];
 
             for (int i = 0; i < quantityOfChildren; i++)
             {
                 woodenBarricade[i] = transform.GetChild(i);
             }
         }
-        void Update()
+        private void OnTriggerStay(Collider other)
         {
-            healthPercentage = health / maxHealth;
-            Debug.Log(healthPercentage);
-            for (int i = 0; i < transform.childCount; i++)
+            if (other.CompareTag("Player") && Input.GetButton("Interact"))
             {
-                if (healthPercentage >= (maxHealth / (quantityOfChildren - i)) / healthPercentage)
+                healthPercentage = health / maxHealth;
+
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    woodenBarricade[i].gameObject.SetActive(true);
+                    if (healthPercentage > ((1.0f + i) / quantityOfChildren))
+                    {
+                        woodenBarricade[i].gameObject.SetActive(true);
+                    }
                 }
             }
+            Debug.Log(health);
         }
         public float GetHealth() 
         {
@@ -42,6 +47,7 @@ namespace Barricade
         public void RepairBarricade(float value)
         {
             health += value;
+            health = Mathf.Clamp(health, 0.0f, maxHealth);
         }
     }
 }
