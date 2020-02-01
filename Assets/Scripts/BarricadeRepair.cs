@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace Barricade
 {
     public class BarricadeRepair : MonoBehaviour
     {
-        //float health;
+        [SerializeField] TextMeshProUGUI repairText;
         BarricadeHealth barricadeHealth;
         private void Start()
         {
@@ -22,6 +23,14 @@ namespace Barricade
                 //Mathf.Clamp(health, 0, 10);
                 //Debug.Log(health);
             }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            repairText.gameObject.SetActive(true);
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            repairText.gameObject.SetActive(false);
         }
     }
 }

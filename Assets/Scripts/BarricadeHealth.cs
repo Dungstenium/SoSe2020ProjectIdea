@@ -32,13 +32,12 @@ namespace Barricade
 
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    if (healthPercentage > ((1.0f + i) / quantityOfChildren))
+                    if (healthPercentage >= ((1.0f + i) / quantityOfChildren))
                     {
                         woodenBarricade[i].gameObject.SetActive(true);
                     }
                 }
             }
-            Debug.Log(health);
         }
         public float GetHealth() 
         {
