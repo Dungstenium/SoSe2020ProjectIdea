@@ -8,15 +8,27 @@ public class FireWeapon : MonoBehaviour
     [SerializeField] float damage = 10.0f;
     [SerializeField] float range = 100.0f;
     [SerializeField] GameObject shootingRay;
+    [SerializeField] AmmoCounter ammoCounter;
+    private void Start()
+    {
+        ammoCounter = GetComponent<AmmoCounter>();
+    }
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot();
-            StartCoroutine(ShootingEffect());
+            if (ammoCounter.GetBulletCounter() >= 1)
+            {
+                Shoot();
+                StartCoroutine(ShootingEffect());
+                ammoCounter.ShootBullet();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
         }
     }
-
     private void Shoot()
     {
         RaycastHit hit;
@@ -30,5 +42,9 @@ public class FireWeapon : MonoBehaviour
         shootingRay.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         shootingRay.SetActive(false);
+    }
+    void Reload()
+    {
+        ammoCounter.SetBulletCounter(7);
     }
 }
