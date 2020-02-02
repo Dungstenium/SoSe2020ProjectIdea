@@ -8,25 +8,31 @@ namespace Barricade
     public class BarricadeRepair : MonoBehaviour
     {
         [SerializeField] TextMeshProUGUI repairText;
-        BarricadeHealth barricadeHealth;
-        private void Start()
-        {
-            //this.health = GetComponent<BarricadeHealth>().health;  
-            barricadeHealth = GetComponent<BarricadeHealth>();
-        }
+        bool isRepaired = false;
         private void OnTriggerStay(Collider other)
         {
+            BarricadeHealth barricadeHealth = GetComponent<BarricadeHealth>();
+
             if (other.CompareTag("Player") && Input.GetButton("Interact"))
             {
                 barricadeHealth.RepairBarricade(Time.deltaTime);
-                //health += Time.deltaTime;
-                //Mathf.Clamp(health, 0, 10);
-                //Debug.Log(health);
+                repairText.text = "Reparing";
+
+                if (barricadeHealth.GetHealth() == 10.0f)
+                {
+                    repairText.text = "Repared";
+                    isRepaired = true;
+                }
             }
         }
         private void OnTriggerEnter(Collider other)
         {
-            repairText.gameObject.SetActive(true);
+            if (!isRepaired)
+            {
+                repairText.text = "Press [F] to repair";
+
+                repairText.gameObject.SetActive(true);
+            }
         }
         private void OnTriggerExit(Collider other)
         {
