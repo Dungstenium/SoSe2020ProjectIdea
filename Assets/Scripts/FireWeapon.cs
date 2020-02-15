@@ -21,7 +21,6 @@ public class FireWeapon : MonoBehaviour
             {
                 Shoot();
                 StartCoroutine(ShootingEffect());
-                ammoCounter.ShootBullet();
             }
         }
         if (Input.GetKeyDown(KeyCode.R))
@@ -31,6 +30,8 @@ public class FireWeapon : MonoBehaviour
     }
     private void Shoot()
     {
+        ammoCounter.ShootBullet();
+
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, range))
         {
